@@ -33,3 +33,6 @@
 ![avatar](./img/22.png)
 5. 可配置项目
 ![avatar](./img/34.png)
+
+## license 
+  MIT
