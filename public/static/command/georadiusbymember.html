@@ -1,0 +1,24 @@
+<h1 class="command"> <span class="name">GEORADIUSBYMEMBER</span> <span class="arg">key</span> <span class="arg">member</span> <span class="arg">radius</span> <span class="arg">m|km|ft|mi</span> <span class="arg">[WITHCOORD]</span> <span class="arg">[WITHDIST]</span> <span class="arg">[WITHHASH]</span> <span class="arg">[COUNT count]</span> <span class="arg">[ASC|DESC]</span> <span class="arg">[STORE key]</span> <span class="arg">[STOREDIST key]</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 3.2.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(N+log(M)) where N is the number of elements inside the bounding box of the circular area delimited by center and radius and M is the number of items inside the index.</p> 
+ </div> 
+ <p>This command is exactly like <span href="/commands/georadius">GEORADIUS</span> with the sole difference that instead of taking, as the center of the area to query, a longitude and latitude value, it takes the name of a member already existing inside the geospatial index represented by the sorted set.</p> 
+ <p>The position of the specified member is used as the center of the query.</p> 
+ <p>Please check the example below and the <span href="/commands/georadius">GEORADIUS</span> documentation for more information about the command and its options.</p> 
+ <p>Note that <code>GEORADIUSBYMEMBER_RO</code> is also available since Redis 3.2.10 and Redis 4.0.0 in order to provide a read-only command that can be used in replicas. See the <span href="/commands/georadius">GEORADIUS</span> page for more information.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="578367c3f8efb06d86e38ca732648b0d"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GEOADD Sicily 13.583333 37.316667 "Agrigento"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"</span> 
+  <pre>(integer) 2</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GEORADIUSBYMEMBER Sicily Agrigento 100 km</span> 
+  <pre>1) "Agrigento"
+2) "Palermo"</pre>
+ </div> 
+</div>

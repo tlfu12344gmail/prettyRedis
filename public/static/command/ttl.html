@@ -1,0 +1,30 @@
+<h1 class="command"> <span class="name">TTL</span> <span class="arg">key</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p>Returns the remaining time to live of a key that has a timeout. This introspection capability allows a Redis client to check how many seconds a given key will continue to be part of the dataset.</p> 
+ <p>In Redis 2.6 or older the command returns <code>-1</code> if the key does not exist or if the key exist but has no associated expire.</p> 
+ <p>Starting with Redis 2.8 the return value in case of error changed:</p> 
+ <ul> 
+  <li>The command returns <code>-2</code> if the key does not exist.</li> 
+  <li>The command returns <code>-1</code> if the key exists but has no associated expire.</li> 
+ </ul> 
+ <p>See also the <span href="/commands/pttl">PTTL</span> command that returns the same information with milliseconds resolution (Only available in Redis 2.6 or greater).</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#integer-reply">Integer reply</span>: TTL in seconds, or a negative value in order to signal an error (see the description above).</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="4d89d4e5bbd56c1672e621e92fc9cb53"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SET mykey "Hello"</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">EXPIRE mykey 10</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">TTL mykey</span> 
+  <pre>(integer) 10</pre>
+ </div> 
+</div>

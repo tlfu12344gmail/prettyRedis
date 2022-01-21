@@ -1,0 +1,20 @@
+<h1 class="command"> <span class="name">PSETEX</span> <span class="arg">key</span> <span class="arg">milliseconds</span> <span class="arg">value</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 2.6.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p><span href="/commands/psetex">PSETEX</span> works exactly like <span href="/commands/setex">SETEX</span> with the sole difference that the expire time is specified in milliseconds instead of seconds.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="370f66a91b0505606227b433b1ad3b86"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">PSETEX mykey 1000 "Hello"</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">PTTL mykey</span> 
+  <pre>(integer) 1000</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GET mykey</span> 
+  <pre>"Hello"</pre>
+ </div> 
+</div>

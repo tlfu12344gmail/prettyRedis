@@ -1,0 +1,33 @@
+<h1 class="command"> <span class="name">SADD</span> <span class="arg">key</span> <span class="arg">member [member ...]</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1) for each element added, so O(N) to add N elements when the command is called with multiple arguments.</p> 
+ </div> 
+ <p>Add the specified members to the set stored at <code>key</code>. Specified members that are already a member of this set are ignored. If <code>key</code> does not exist, a new set is created before adding the specified members.</p> 
+ <p>An error is returned when the value stored at <code>key</code> is not a set.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#integer-reply">Integer reply</span>: the number of elements that were added to the set, not including all the elements already present into the set.</p> 
+ <span id="history" class="anchor"></span>
+ <h2><span href="#history" class="anchor-link"></span>History</h2> 
+ <ul> 
+  <li><code>&gt;= 2.4</code>: Accepts multiple <code>member</code> arguments. Redis versions before 2.4 are only able to add a single member per call.</li> 
+ </ul> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="b3c797d864d4872d094d69a0280e3836"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SADD myset "Hello"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SADD myset "World"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SADD myset "World"</span> 
+  <pre>(integer) 0</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SMEMBERS myset</span> 
+  <pre>1) "Hello"
+2) "World"</pre>
+ </div> 
+</div>

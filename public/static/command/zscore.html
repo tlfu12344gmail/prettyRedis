@@ -1,0 +1,21 @@
+<h1 class="command"> <span class="name">ZSCORE</span> <span class="arg">key</span> <span class="arg">member</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.2.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p>Returns the score of <code>member</code> in the sorted set at <code>key</code>.</p> 
+ <p>If <code>member</code> does not exist in the sorted set, or <code>key</code> does not exist, <code>nil</code> is returned.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#bulk-string-reply">Bulk string reply</span>: the score of <code>member</code> (a double precision floating point number), represented as string.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="e6fca530821456540db972f413f6a498"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">ZADD myzset 1 "one"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">ZSCORE myzset "one"</span> 
+  <pre>"1"</pre>
+ </div> 
+</div>

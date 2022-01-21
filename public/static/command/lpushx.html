@@ -1,0 +1,35 @@
+<h1 class="command"> <span class="name">LPUSHX</span> <span class="arg">key</span> <span class="arg">element [element ...]</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 2.2.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1) for each element added, so O(N) to add N elements when the command is called with multiple arguments.</p> 
+ </div> 
+ <p>Inserts specified values at the head of the list stored at <code>key</code>, only if <code>key</code> already exists and holds a list. In contrary to <span href="/commands/lpush">LPUSH</span>, no operation will be performed when <code>key</code> does not yet exist.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#integer-reply">Integer reply</span>: the length of the list after the push operation.</p> 
+ <span id="history" class="anchor"></span>
+ <h2><span href="#history" class="anchor-link"></span>History</h2> 
+ <ul> 
+  <li><code>&gt;= 4.0</code>: Accepts multiple <code>element</code> arguments. In Redis versions older than 4.0 it was possible to push a single value per command.</li> 
+ </ul> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="961b7c2dc06ff8a0e3532d476777ba4c"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LPUSH mylist "World"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LPUSHX mylist "Hello"</span> 
+  <pre>(integer) 2</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LPUSHX myotherlist "Hello"</span> 
+  <pre>(integer) 0</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LRANGE mylist 0 -1</span> 
+  <pre>1) "Hello"
+2) "World"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LRANGE myotherlist 0 -1</span> 
+  <pre>(empty list or set)</pre>
+ </div> 
+</div>

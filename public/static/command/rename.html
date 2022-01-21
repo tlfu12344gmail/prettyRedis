@@ -1,0 +1,29 @@
+<h1 class="command"> <span class="name">RENAME</span> <span class="arg">key</span> <span class="arg">newkey</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p>Renames <code>key</code> to <code>newkey</code>. It returns an error when <code>key</code> does not exist. If <code>newkey</code> already exists it is overwritten, when this happens <span href="/commands/rename">RENAME</span> executes an implicit <span href="/commands/del">DEL</span> operation, so if the deleted key contains a very big value it may cause high latency even if <span href="/commands/rename">RENAME</span> itself is usually a constant-time operation.</p> 
+ <p>In Cluster mode, both <code>key</code> and <code>newkey</code> must be in the same <strong>hash slot</strong>, meaning that in practice only keys that have the same hash tag can be reliably renamed in cluster.</p> 
+ <span id="history" class="anchor"></span>
+ <h2><span href="#history" class="anchor-link"></span>History</h2> 
+ <ul> 
+  <li><code>&lt;= 3.2.0</code>: Before Redis 3.2.0, an error is returned if source and destination names are the same.</li> 
+ </ul> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#simple-string-reply">Simple string reply</span></p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="4fc30ea127566d9b39d600c3d48e8840"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SET mykey "Hello"</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">RENAME mykey myotherkey</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GET myotherkey</span> 
+  <pre>"Hello"</pre>
+ </div> 
+</div>

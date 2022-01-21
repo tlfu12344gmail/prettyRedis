@@ -1,0 +1,39 @@
+<h1 class="command"> <span class="name">EXISTS</span> <span class="arg">key [key ...]</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p>Returns if <code>key</code> exists.</p> 
+ <p>Since Redis 3.0.3 it is possible to specify multiple keys instead of a single one. In such a case, it returns the total number of keys existing. Note that returning 1 or 0 for a single key is just a special case of the variadic usage, so the command is completely backward compatible.</p> 
+ <p>The user should be aware that if the same existing key is mentioned in the arguments multiple times, it will be counted multiple times. So if <code>somekey</code> exists, <code>EXISTS somekey somekey</code> will return 2.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#integer-reply">Integer reply</span>, specifically:</p> 
+ <ul> 
+  <li><code>1</code> if the key exists.</li> 
+  <li><code>0</code> if the key does not exist.</li> 
+ </ul> 
+ <p>Since Redis 3.0.3 the command accepts a variable number of keys and the return value is generalized:</p> 
+ <ul> 
+  <li>The number of keys existing among the ones specified as arguments. Keys mentioned multiple times and existing are counted multiple times.</li> 
+ </ul> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="0aa5875d961ac50d950cfb3a7ad9914b"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SET key1 "Hello"</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">EXISTS key1</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">EXISTS nosuchkey</span> 
+  <pre>(integer) 0</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SET key2 "World"</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">EXISTS key1 key2 nosuchkey</span> 
+  <pre>(integer) 2</pre>
+ </div> 
+</div>

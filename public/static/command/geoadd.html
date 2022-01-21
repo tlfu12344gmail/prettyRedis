@@ -1,0 +1,44 @@
+<h1 class="command"> <span class="name">GEOADD</span> <span class="arg">key</span> <span class="arg">longitude latitude member [longitude latitude member ...]</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 3.2.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(log(N)) for each item added, where N is the number of elements in the sorted set.</p> 
+ </div> 
+ <p>Adds the specified geospatial items (latitude, longitude, name) to the specified key. Data is stored into the key as a sorted set, in a way that makes it possible to later retrieve items using a query by radius with the <span href="/commands/georadius">GEORADIUS</span> or <span href="/commands/georadiusbymember">GEORADIUSBYMEMBER</span> commands.</p> 
+ <p>The command takes arguments in the standard format x,y so the longitude must be specified before the latitude. There are limits to the coordinates that can be indexed: areas very near to the poles are not indexable. The exact limits, as specified by EPSG:900913 / EPSG:3785 / OSGEO:41001 are the following:</p> 
+ <ul> 
+  <li>Valid longitudes are from -180 to 180 degrees.</li> 
+  <li>Valid latitudes are from -85.05112878 to 85.05112878 degrees.</li> 
+ </ul> 
+ <p>The command will report an error when the user attempts to index coordinates outside the specified ranges.</p> 
+ <p><strong>Note:</strong> there is no <strong>GEODEL</strong> command because you can use <span href="/commands/zrem">ZREM</span> in order to remove elements. The Geo index structure is just a sorted set.</p> 
+ <span id="how-does-it-work" class="anchor"></span>
+ <h2><span href="#how-does-it-work" class="anchor-link"></span>How does it work?</h2> 
+ <p>The way the sorted set is populated is using a technique called <span href="https://en.wikipedia.org/wiki/Geohash">Geohash</span>. Latitude and Longitude bits are interleaved in order to form an unique 52 bit integer. We know that a sorted set double score can represent a 52 bit integer without losing precision.</p> 
+ <p>This format allows for radius querying by checking the 1+8 areas needed to cover the whole radius, and discarding elements outside the radius. The areas are checked by calculating the range of the box covered removing enough bits from the less significant part of the sorted set score, and computing the score range to query in the sorted set for each area.</p> 
+ <span id="what-earth-model-does-it-use" class="anchor"></span>
+ <h2><span href="#what-earth-model-does-it-use" class="anchor-link"></span>What Earth model does it use?</h2> 
+ <p>It just assumes that the Earth is a sphere, since the used distance formula is the Haversine formula. This formula is only an approximation when applied to the Earth, which is not a perfect sphere. The introduced errors are not an issue when used in the context of social network sites that need to query by radius and most other applications. However in the worst case the error may be up to 0.5%, so you may want to consider other systems for error-critical applications.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#integer-reply">Integer reply</span>, specifically:</p> 
+ <ul> 
+  <li>The number of elements added to the sorted set, not including elements already existing for which the score was updated.</li> 
+ </ul> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="b5a1dd337dd8d7f0af1e9fa086cca90b"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"</span> 
+  <pre>(integer) 2</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GEODIST Sicily Palermo Catania</span> 
+  <pre>"166274.1516"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GEORADIUS Sicily 15 37 100 km</span> 
+  <pre>1) "Catania"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GEORADIUS Sicily 15 37 200 km</span> 
+  <pre>1) "Palermo"
+2) "Catania"</pre>
+ </div> 
+</div>

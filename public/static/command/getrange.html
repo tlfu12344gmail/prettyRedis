@@ -1,0 +1,31 @@
+<h1 class="command"> <span class="name">GETRANGE</span> <span class="arg">key</span> <span class="arg">start</span> <span class="arg">end</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 2.4.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(N) where N is the length of the returned string. The complexity is ultimately determined by the returned length, but because creating a substring from an existing string is very cheap, it can be considered O(1) for small strings.</p> 
+ </div> 
+ <p><strong>Warning</strong>: this command was renamed to <span href="/commands/getrange">GETRANGE</span>, it is called <code>SUBSTR</code> in Redis versions <code>&lt;= 2.0</code>.</p> 
+ <p>Returns the substring of the string value stored at <code>key</code>, determined by the offsets <code>start</code> and <code>end</code> (both are inclusive). Negative offsets can be used in order to provide an offset starting from the end of the string. So -1 means the last character, -2 the penultimate and so forth.</p> 
+ <p>The function handles out of range requests by limiting the resulting range to the actual length of the string.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#bulk-string-reply">Bulk string reply</span></p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="2da80e5cc1a6d2fc5b3f0813254da392"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SET mykey "This is a string"</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GETRANGE mykey 0 3</span> 
+  <pre>"This"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GETRANGE mykey -3 -1</span> 
+  <pre>"ing"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GETRANGE mykey 0 -1</span> 
+  <pre>"This is a string"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GETRANGE mykey 10 100</span> 
+  <pre>"string"</pre>
+ </div> 
+</div>

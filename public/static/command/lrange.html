@@ -1,0 +1,46 @@
+<h1 class="command"> <span class="name">LRANGE</span> <span class="arg">key</span> <span class="arg">start</span> <span class="arg">stop</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(S+N) where S is the distance of start offset from HEAD for small lists, from nearest end (HEAD or TAIL) for large lists; and N is the number of elements in the specified range.</p> 
+ </div> 
+ <p>Returns the specified elements of the list stored at <code>key</code>. The offsets <code>start</code> and <code>stop</code> are zero-based indexes, with <code>0</code> being the first element of the list (the head of the list), <code>1</code> being the next element and so on.</p> 
+ <p>These offsets can also be negative numbers indicating offsets starting at the end of the list. For example, <code>-1</code> is the last element of the list, <code>-2</code> the penultimate, and so on.</p> 
+ <span id="consistency-with-range-functions-in-various-programming-languages" class="anchor"></span>
+ <h2><span href="#consistency-with-range-functions-in-various-programming-languages" class="anchor-link"></span>Consistency with range functions in various programming languages</h2> 
+ <p>Note that if you have a list of numbers from 0 to 100, <code>LRANGE list 0 10</code> will return 11 elements, that is, the rightmost item is included. This <strong>may or may not</strong> be consistent with behavior of range-related functions in your programming language of choice (think Ruby's <code>Range.new</code>, <code>Array#slice</code> or Python's <code>range()</code> function).</p> 
+ <span id="out-of-range-indexes" class="anchor"></span>
+ <h2><span href="#out-of-range-indexes" class="anchor-link"></span>Out-of-range indexes</h2> 
+ <p>Out of range indexes will not produce an error. If <code>start</code> is larger than the end of the list, an empty list is returned. If <code>stop</code> is larger than the actual end of the list, Redis will treat it like the last element of the list.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#array-reply">Array reply</span>: list of elements in the specified range.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="7e3323c6a39396993437777a7bf99cdd"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">RPUSH mylist "one"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">RPUSH mylist "two"</span> 
+  <pre>(integer) 2</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">RPUSH mylist "three"</span> 
+  <pre>(integer) 3</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LRANGE mylist 0 0</span> 
+  <pre>1) "one"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LRANGE mylist -3 2</span> 
+  <pre>1) "one"
+2) "two"
+3) "three"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LRANGE mylist -100 100</span> 
+  <pre>1) "one"
+2) "two"
+3) "three"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LRANGE mylist 5 10</span> 
+  <pre>(empty list or set)</pre>
+ </div> 
+</div>

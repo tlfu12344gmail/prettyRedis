@@ -1,0 +1,39 @@
+<h1 class="command"> <span class="name">SREM</span> <span class="arg">key</span> <span class="arg">member [member ...]</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(N) where N is the number of members to be removed.</p> 
+ </div> 
+ <p>Remove the specified members from the set stored at <code>key</code>. Specified members that are not a member of this set are ignored. If <code>key</code> does not exist, it is treated as an empty set and this command returns <code>0</code>.</p> 
+ <p>An error is returned when the value stored at <code>key</code> is not a set.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#integer-reply">Integer reply</span>: the number of members that were removed from the set, not including non existing members.</p> 
+ <span id="history" class="anchor"></span>
+ <h2><span href="#history" class="anchor-link"></span>History</h2> 
+ <ul> 
+  <li><code>&gt;= 2.4</code>: Accepts multiple <code>member</code> arguments. Redis versions older than 2.4 can only remove a set member per call.</li> 
+ </ul> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="3069d65901f893353094c159b24a1d27"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SADD myset "one"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SADD myset "two"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SADD myset "three"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SREM myset "one"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SREM myset "four"</span> 
+  <pre>(integer) 0</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SMEMBERS myset</span> 
+  <pre>1) "two"
+2) "three"</pre>
+ </div> 
+</div>

@@ -1,0 +1,63 @@
+<h1 class="command"> <span class="name">SET</span> <span class="arg">key</span> <span class="arg">value</span> <span class="arg">[EX seconds|PX milliseconds|KEEPTTL]</span> <span class="arg">[NX|XX]</span> <span class="arg">[GET]</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p>Set <code>key</code> to hold the string <code>value</code>. If <code>key</code> already holds a value, it is overwritten, regardless of its type. Any previous time to live associated with the key is discarded on successful <span href="/commands/set">SET</span> operation.</p> 
+ <span id="options" class="anchor"></span>
+ <h2><span href="#options" class="anchor-link"></span>Options</h2> 
+ <p>The <span href="/commands/set">SET</span> command supports a set of options that modify its behavior:</p> 
+ <ul> 
+  <li><code>EX</code> <em>seconds</em> -- Set the specified expire time, in seconds.</li> 
+  <li><code>PX</code> <em>milliseconds</em> -- Set the specified expire time, in milliseconds.</li> 
+  <li><code>NX</code> -- Only set the key if it does not already exist.</li> 
+  <li><code>XX</code> -- Only set the key if it already exist.</li> 
+  <li><code>KEEPTTL</code> -- Retain the time to live associated with the key.</li> 
+  <li><span href="/commands/get">GET</span> -- Return the old value stored at key, or nil when key did not exist.</li> 
+ </ul> 
+ <p>Note: Since the <span href="/commands/set">SET</span> command options can replace <span href="/commands/setnx">SETNX</span>, <span href="/commands/setex">SETEX</span>, <span href="/commands/psetex">PSETEX</span>, <span href="/commands/getset">GETSET</span>, it is possible that in future versions of Redis these three commands will be deprecated and finally removed.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#simple-string-reply">Simple string reply</span>: <code>OK</code> if <span href="/commands/set">SET</span> was executed correctly. <span href="/topics/protocol#bulk-string-reply">Bulk string reply</span>: when <span href="/commands/get">GET</span> option is set, the old value stored at key, or nil when key did not exist. <span href="/topics/protocol#nil-reply">Null reply</span>: a Null Bulk Reply is returned if the <span href="/commands/set">SET</span> operation was not performed because the user specified the <code>NX</code> or <code>XX</code> option but the condition was not met or if user specified the <code>NX</code> and <span href="/commands/get">GET</span> options that do not met.</p> 
+ <span id="history" class="anchor"></span>
+ <h2><span href="#history" class="anchor-link"></span>History</h2> 
+ <ul> 
+  <li><code>&gt;= 2.6.12</code>: Added the <code>EX</code>, <code>PX</code>, <code>NX</code> and <code>XX</code> options.</li> 
+  <li><code>&gt;= 6.0</code>: Added the <code>KEEPTTL</code> option.</li> 
+  <li><code>&gt;= 6.2</code>: Added the <span href="/commands/get">GET</span> option.</li> 
+ </ul> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="ace1f5cc353453c2f2193dac64c15ab1"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SET mykey "Hello"</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GET mykey</span> 
+  <pre>"Hello"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SET anotherkey "will expire in a minute" EX 60</span> 
+  <pre>"OK"</pre>
+ </div> 
+ <span id="patterns" class="anchor"></span>
+ <h2><span href="#patterns" class="anchor-link"></span>Patterns</h2> 
+ <p><strong>Note:</strong> The following pattern is discouraged in favor of <span href="https://redis.io/topics/distlock">the Redlock algorithm</span> which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.</p> 
+ <p>The command <code>SET resource-name anystring NX EX max-lock-time</code> is a simple way to implement a locking system with Redis.</p> 
+ <p>A client can acquire the lock if the above command returns <code>OK</code> (or retry after some time if the command returns Nil), and remove the lock just using <span href="/commands/del">DEL</span>.</p> 
+ <p>The lock will be auto-released after the expire time is reached.</p> 
+ <p>It is possible to make this system more robust modifying the unlock schema as follows:</p> 
+ <ul> 
+  <li>Instead of setting a fixed string, set a non-guessable large random string, called token.</li> 
+  <li>Instead of releasing the lock with <span href="/commands/del">DEL</span>, send a script that only removes the key if the value matches.</li> 
+ </ul> 
+ <p>This avoids that a client will try to release the lock after the expire time deleting the key created by another client that acquired the lock later.</p> 
+ <p>An example of unlock script would be similar to the following:</p> 
+ <pre><code>if redis.call("get",KEYS[1]) == ARGV[1]
+then
+    return redis.call("del",KEYS[1])
+else
+    return 0
+end
+</code></pre> 
+ <p>The script should be called with <code>EVAL ...script... 1 resource-name token-value</code></p> 
+</div>

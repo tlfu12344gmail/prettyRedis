@@ -1,0 +1,13 @@
+<h1 class="command"> <span class="name">SCRIPT KILL</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 2.6.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p>Kills the currently executing Lua script, assuming no write operation was yet performed by the script.</p> 
+ <p>This command is mainly useful to kill a script that is running for too much time(for instance because it entered an infinite loop because of a bug). The script will be killed and the client currently blocked into EVAL will see the command returning with an error.</p> 
+ <p>If the script already performed write operations it can not be killed in this way because it would violate Lua script atomicity contract. In such a case only <code>SHUTDOWN NOSAVE</code> is able to kill the script, killing the Redis process in an hard way preventing it to persist with half-written information.</p> 
+ <p>Please refer to the <span href="/commands/eval">EVAL</span> documentation for detailed information about Redis Lua scripting.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#simple-string-reply">Simple string reply</span></p> 
+</div>

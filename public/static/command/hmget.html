@@ -1,0 +1,24 @@
+<h1 class="command"> <span class="name">HMGET</span> <span class="arg">key</span> <span class="arg">field [field ...]</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 2.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(N) where N is the number of fields being requested.</p> 
+ </div> 
+ <p>Returns the values associated with the specified <code>fields</code> in the hash stored at <code>key</code>.</p> 
+ <p>For every <code>field</code> that does not exist in the hash, a <code>nil</code> value is returned. Because non-existing keys are treated as empty hashes, running <span href="/commands/hmget">HMGET</span> against a non-existing <code>key</code> will return a list of <code>nil</code> values.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#array-reply">Array reply</span>: list of values associated with the given fields, in the same order as they are requested.</p> 
+ <div class="example" data-session="a41ee8d8018151b572d2d1078179cb6d"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HSET myhash field1 "Hello"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HSET myhash field2 "World"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HMGET myhash field1 field2 nofield</span> 
+  <pre>1) "Hello"
+2) "World"
+3) (nil)</pre>
+ </div> 
+</div>

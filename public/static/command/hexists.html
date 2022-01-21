@@ -1,0 +1,27 @@
+<h1 class="command"> <span class="name">HEXISTS</span> <span class="arg">key</span> <span class="arg">field</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 2.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p>Returns if <code>field</code> is an existing field in the hash stored at <code>key</code>.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#integer-reply">Integer reply</span>, specifically:</p> 
+ <ul> 
+  <li><code>1</code> if the hash contains <code>field</code>.</li> 
+  <li><code>0</code> if the hash does not contain <code>field</code>, or <code>key</code> does not exist.</li> 
+ </ul> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="9f93d8f2b017bba8228dc093a47a97d0"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HSET myhash field1 "foo"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HEXISTS myhash field1</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HEXISTS myhash field2</span> 
+  <pre>(integer) 0</pre>
+ </div> 
+</div>

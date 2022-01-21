@@ -1,0 +1,40 @@
+<h1 class="command"> <span class="name">GEODIST</span> <span class="arg">key</span> <span class="arg">member1</span> <span class="arg">member2</span> <span class="arg">[m|km|ft|mi]</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 3.2.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(log(N))</p> 
+ </div> 
+ <p>Return the distance between two members in the geospatial index represented by the sorted set.</p> 
+ <p>Given a sorted set representing a geospatial index, populated using the <span href="/commands/geoadd">GEOADD</span> command, the command returns the distance between the two specified members in the specified unit.</p> 
+ <p>If one or both the members are missing, the command returns NULL.</p> 
+ <p>The unit must be one of the following, and defaults to meters:</p> 
+ <ul> 
+  <li><strong>m</strong> for meters.</li> 
+  <li><strong>km</strong> for kilometers.</li> 
+  <li><strong>mi</strong> for miles.</li> 
+  <li><strong>ft</strong> for feet.</li> 
+ </ul> 
+ <p>The distance is computed assuming that the Earth is a perfect sphere, so errors up to 0.5% are possible in edge cases.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#bulk-string-reply">Bulk string reply</span>, specifically:</p> 
+ <p>The command returns the distance as a double (represented as a string) in the specified unit, or NULL if one or both the elements are missing.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="c0dd0101ce89ac02c44a600436386e6c"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"</span> 
+  <pre>(integer) 2</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GEODIST Sicily Palermo Catania</span> 
+  <pre>"166274.1516"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GEODIST Sicily Palermo Catania km</span> 
+  <pre>"166.2742"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GEODIST Sicily Palermo Catania mi</span> 
+  <pre>"103.3182"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GEODIST Sicily Foo Bar</span> 
+  <pre>(nil)</pre>
+ </div> 
+</div>

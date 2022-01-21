@@ -1,0 +1,63 @@
+<h1 class="command"> <span class="name">SETNX</span> <span class="arg">key</span> <span class="arg">value</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p>Set <code>key</code> to hold string <code>value</code> if <code>key</code> does not exist. In that case, it is equal to <span href="/commands/set">SET</span>. When <code>key</code> already holds a value, no operation is performed. <span href="/commands/setnx">SETNX</span> is short for "<strong>SET</strong> if <strong>N</strong>ot e<strong>X</strong>ists".</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#integer-reply">Integer reply</span>, specifically:</p> 
+ <ul> 
+  <li><code>1</code> if the key was set</li> 
+  <li><code>0</code> if the key was not set</li> 
+ </ul> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="70af36a7bb7aa69e2a36b8cb2fc0eaa4"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SETNX mykey "Hello"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SETNX mykey "World"</span> 
+  <pre>(integer) 0</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GET mykey</span> 
+  <pre>"Hello"</pre>
+ </div> 
+ <span id="design-pattern-locking-with-codesetnxcode" class="anchor"></span>
+ <h2><span href="#design-pattern-locking-with-codesetnxcode" class="anchor-link"></span>Design pattern: Locking with <code>SETNX</code></h2> 
+ <p><strong>Please note that:</strong></p> 
+ <ol> 
+  <li>The following pattern is discouraged in favor of <span href="https://redis.io/topics/distlock">the Redlock algorithm</span> which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.</li> 
+  <li>We document the old pattern anyway because certain existing implementations link to this page as a reference. Moreover it is an interesting example of how Redis commands can be used in order to mount programming primitives.</li> 
+  <li>Anyway even assuming a single-instance locking primitive, starting with 2.6.12 it is possible to create a much simpler locking primitive, equivalent to the one discussed here, using the <span href="/commands/set">SET</span> command to acquire the lock, and a simple Lua script to release the lock. The pattern is documented in the <span href="/commands/set">SET</span> command page.</li> 
+ </ol> 
+ <p>That said, <span href="/commands/setnx">SETNX</span> can be used, and was historically used, as a locking primitive. For example, to acquire the lock of the key <code>foo</code>, the client could try the following:</p> 
+ <pre><code>SETNX lock.foo &lt;current Unix time + lock timeout + 1&gt;
+</code></pre> 
+ <p>If <span href="/commands/setnx">SETNX</span> returns <code>1</code> the client acquired the lock, setting the <code>lock.foo</code> key to the Unix time at which the lock should no longer be considered valid. The client will later use <code>DEL lock.foo</code> in order to release the lock.</p> 
+ <p>If <span href="/commands/setnx">SETNX</span> returns <code>0</code> the key is already locked by some other client. We can either return to the caller if it's a non blocking lock, or enter a loop retrying to hold the lock until we succeed or some kind of timeout expires.</p> 
+ <span id="handling-deadlocks" class="anchor"></span>
+ <h3><span href="#handling-deadlocks" class="anchor-link"></span>Handling deadlocks</h3> 
+ <p>In the above locking algorithm there is a problem: what happens if a client fails, crashes, or is otherwise not able to release the lock? It's possible to detect this condition because the lock key contains a UNIX timestamp. If such a timestamp is equal to the current Unix time the lock is no longer valid.</p> 
+ <p>When this happens we can't just call <span href="/commands/del">DEL</span> against the key to remove the lock and then try to issue a <span href="/commands/setnx">SETNX</span>, as there is a race condition here, when multiple clients detected an expired lock and are trying to release it.</p> 
+ <ul> 
+  <li>C1 and C2 read <code>lock.foo</code> to check the timestamp, because they both received <code>0</code> after executing <span href="/commands/setnx">SETNX</span>, as the lock is still held by C3 that crashed after holding the lock.</li> 
+  <li>C1 sends <code>DEL lock.foo</code></li> 
+  <li>C1 sends <code>SETNX lock.foo</code> and it succeeds</li> 
+  <li>C2 sends <code>DEL lock.foo</code></li> 
+  <li>C2 sends <code>SETNX lock.foo</code> and it succeeds</li> 
+  <li><strong>ERROR</strong>: both C1 and C2 acquired the lock because of the race condition.</li> 
+ </ul> 
+ <p>Fortunately, it's possible to avoid this issue using the following algorithm. Let's see how C4, our sane client, uses the good algorithm:</p> 
+ <ul> 
+  <li><p>C4 sends <code>SETNX lock.foo</code> in order to acquire the lock</p></li> 
+  <li><p>The crashed client C3 still holds it, so Redis will reply with <code>0</code> to C4.</p></li> 
+  <li><p>C4 sends <code>GET lock.foo</code> to check if the lock expired. If it is not, it will sleep for some time and retry from the start.</p></li> 
+  <li><p>Instead, if the lock is expired because the Unix time at <code>lock.foo</code> is older than the current Unix time, C4 tries to perform:</p> <pre><code>GETSET lock.foo &lt;current Unix timestamp + lock timeout + 1&gt;
+</code></pre></li> 
+  <li><p>Because of the <span href="/commands/getset">GETSET</span> semantic, C4 can check if the old value stored at <code>key</code> is still an expired timestamp. If it is, the lock was acquired.</p></li> 
+  <li><p>If another client, for instance C5, was faster than C4 and acquired the lock with the <span href="/commands/getset">GETSET</span> operation, the C4 <span href="/commands/getset">GETSET</span> operation will return a non expired timestamp. C4 will simply restart from the first step. Note that even if C4 set the key a bit a few seconds in the future this is not a problem.</p></li> 
+ </ul> 
+ <p>In order to make this locking algorithm more robust, a client holding a lock should always check the timeout didn't expire before unlocking the key with <span href="/commands/del">DEL</span> because client failures can be complex, not just crashing but also blocking a lot of time against some operations and trying to issue <span href="/commands/del">DEL</span> after a lot of time (when the LOCK is already held by another client).</p> 
+</div>

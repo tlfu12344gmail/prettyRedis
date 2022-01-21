@@ -1,0 +1,28 @@
+<h1 class="command"> <span class="name">GEOPOS</span> <span class="arg">key</span> <span class="arg">member [member ...]</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 3.2.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(log(N)) for each member requested, where N is the number of elements in the sorted set.</p> 
+ </div> 
+ <p>Return the positions (longitude,latitude) of all the specified members of the geospatial index represented by the sorted set at <em>key</em>.</p> 
+ <p>Given a sorted set representing a geospatial index, populated using the <span href="/commands/geoadd">GEOADD</span> command, it is often useful to obtain back the coordinates of specified members. When the geospatial index is populated via <span href="/commands/geoadd">GEOADD</span> the coordinates are converted into a 52 bit geohash, so the coordinates returned may not be exactly the ones used in order to add the elements, but small errors may be introduced.</p> 
+ <p>The command can accept a variable number of arguments so it always returns an array of positions even when a single element is specified.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#array-reply">Array reply</span>, specifically:</p> 
+ <p>The command returns an array where each element is a two elements array representing longitude and latitude (x,y) of each member name passed as argument to the command.</p> 
+ <p>Non existing elements are reported as NULL elements of the array.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="a61f43e75175a203dd695bff2e06d3f6"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"</span> 
+  <pre>(integer) 2</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GEOPOS Sicily Palermo Catania NonExisting</span> 
+  <pre>1) 1) "13.36138933897018433"
+   2) "38.11555639549629859"
+2) 1) "15.08726745843887329"
+   2) "37.50266842333162032"
+3) (nil)</pre>
+ </div> 
+</div>

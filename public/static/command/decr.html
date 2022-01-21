@@ -1,0 +1,27 @@
+<h1 class="command"> <span class="name">DECR</span> <span class="arg">key</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p>Decrements the number stored at <code>key</code> by one. If the key does not exist, it is set to <code>0</code> before performing the operation. An error is returned if the key contains a value of the wrong type or contains a string that can not be represented as integer. This operation is limited to <strong>64 bit signed integers</strong>.</p> 
+ <p>See <span href="/commands/incr">INCR</span> for extra information on increment/decrement operations.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#integer-reply">Integer reply</span>: the value of <code>key</code> after the decrement</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="c3257ff65333fa63b1a9495323200bf5"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SET mykey "10"</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">DECR mykey</span> 
+  <pre>(integer) 9</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SET mykey "234293482390480948029348230948"</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">DECR mykey</span> 
+  <pre>ERR ERR value is not an integer or out of range</pre>
+ </div> 
+</div>

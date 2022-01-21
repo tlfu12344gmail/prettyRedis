@@ -1,0 +1,28 @@
+<h1 class="command"> <span class="name">SETEX</span> <span class="arg">key</span> <span class="arg">seconds</span> <span class="arg">value</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 2.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p>Set <code>key</code> to hold the string <code>value</code> and set <code>key</code> to timeout after a given number of seconds. This command is equivalent to executing the following commands:</p> 
+ <pre><code>SET mykey value
+EXPIRE mykey seconds
+</code></pre> 
+ <p><span href="/commands/setex">SETEX</span> is atomic, and can be reproduced by using the previous two commands inside an <span href="/commands/multi">MULTI</span> / <span href="/commands/exec">EXEC</span> block. It is provided as a faster alternative to the given sequence of operations, because this operation is very common when Redis is used as a cache.</p> 
+ <p>An error is returned when <code>seconds</code> is invalid.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#simple-string-reply">Simple string reply</span></p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="482319b611b8a2be60f7277df5b18210"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SETEX mykey 10 "Hello"</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">TTL mykey</span> 
+  <pre>(integer) 10</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GET mykey</span> 
+  <pre>"Hello"</pre>
+ </div> 
+</div>

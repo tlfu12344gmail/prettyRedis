@@ -1,0 +1,26 @@
+<h1 class="command"> <span class="name">HSTRLEN</span> <span class="arg">key</span> <span class="arg">field</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 3.2.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p>Returns the string length of the value associated with <code>field</code> in the hash stored at <code>key</code>. If the <code>key</code> or the <code>field</code> do not exist, 0 is returned.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#integer-reply">Integer reply</span>: the string length of the value associated with <code>field</code>, or zero when <code>field</code> is not present in the hash or <code>key</code> does not exist at all.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="bfecabe906db2a53fecdcd6dbccac74c"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HMSET myhash f1 HelloWorld f2 99 f3 -256</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HSTRLEN myhash f1</span> 
+  <pre>(integer) 10</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HSTRLEN myhash f2</span> 
+  <pre>(integer) 2</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HSTRLEN myhash f3</span> 
+  <pre>(integer) 4</pre>
+ </div> 
+</div>

@@ -1,0 +1,40 @@
+<h1 class="command"> <span class="name">KEYS</span> <span class="arg">pattern</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(N) with N being the number of keys in the database, under the assumption that the key names in the database and the given pattern have limited length.</p> 
+ </div> 
+ <p>Returns all keys matching <code>pattern</code>.</p> 
+ <p>While the time complexity for this operation is <span class="math">O(N),</span> the constant times are fairly low. For example, Redis running on an entry level laptop can scan a 1 million key database in 40 milliseconds.</p> 
+ <p><strong>Warning</strong>: consider <span href="/commands/keys">KEYS</span> as a command that should only be used in production environments with extreme care. It may ruin performance when it is executed against large databases. This command is intended for debugging and special operations, such as changing your keyspace layout. Don't use <span href="/commands/keys">KEYS</span> in your regular application code. If you're looking for a way to find keys in a subset of your keyspace, consider using <span href="/commands/scan">SCAN</span> or <span href="/topics/data-types#sets">sets</span>.</p> 
+ <p>Supported glob-style patterns:</p> 
+ <ul> 
+  <li><code>h?llo</code> matches <code>hello</code>, <code>hallo</code> and <code>hxllo</code></li> 
+  <li><code>hllo</code> matches <code>hllo</code> and <code>heeeello</code></li> 
+  <li><code>h[ae]llo</code> matches <code>hello</code> and <code>hallo,</code> but not <code>hillo</code></li> 
+  <li><code>h[^e]llo</code> matches <code>hallo</code>, <code>hbllo</code>, ... but not <code>hello</code></li> 
+  <li><code>h[a-b]llo</code> matches <code>hallo</code> and <code>hbllo</code></li> 
+ </ul> 
+ <p>Use <code>\</code> to escape special characters if you want to match them verbatim.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#array-reply">Array reply</span>: list of keys matching <code>pattern</code>.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="a8f7977e575dd866a4918e1cf79e0d94"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">MSET firstname Jack lastname Stuntman age 35</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">KEYS name</span> 
+  <pre>1) "firstname"
+2) "lastname"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">KEYS a??</span> 
+  <pre>1) "age"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">KEYS </span> 
+  <pre>1) "firstname"
+2) "age"
+3) "lastname"</pre>
+ </div> 
+</div>

@@ -1,0 +1,24 @@
+<h1 class="command"> <span class="name">HMSET</span> <span class="arg">key</span> <span class="arg">field value [field value ...]</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 2.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(N) where N is the number of fields being set.</p> 
+ </div> 
+ <p>Sets the specified fields to their respective values in the hash stored at <code>key</code>. This command overwrites any specified fields already existing in the hash. If <code>key</code> does not exist, a new key holding a hash is created.</p> 
+ <p>As per Redis 4.0.0, HMSET is considered deprecated. Please use <span href="/commands/hset">HSET</span> in new code.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#simple-string-reply">Simple string reply</span></p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="2bf91cff3bf768828e46789597469756"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HMSET myhash field1 "Hello" field2 "World"</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HGET myhash field1</span> 
+  <pre>"Hello"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HGET myhash field2</span> 
+  <pre>"World"</pre>
+ </div> 
+</div>

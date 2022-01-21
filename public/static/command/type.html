@@ -1,0 +1,32 @@
+<h1 class="command"> <span class="name">TYPE</span> <span class="arg">key</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p>Returns the string representation of the type of the value stored at <code>key</code>. The different types that can be returned are: <code>string</code>, <code>list</code>, <code>set</code>, <code>zset</code>, <code>hash</code> and <code>stream</code>.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#simple-string-reply">Simple string reply</span>: type of <code>key</code>, or <code>none</code> when <code>key</code> does not exist.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="5b6d3eea392b147727731e2cba62a89d"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SET key1 "value"</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LPUSH key2 "value"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SADD key3 "value"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">TYPE key1</span> 
+  <pre>"string"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">TYPE key2</span> 
+  <pre>"list"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">TYPE key3</span> 
+  <pre>"set"</pre>
+ </div> 
+</div>

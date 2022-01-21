@@ -1,0 +1,24 @@
+<h1 class="command"> <span class="name">HVALS</span> <span class="arg">key</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 2.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(N) where N is the size of the hash.</p> 
+ </div> 
+ <p>Returns all values in the hash stored at <code>key</code>.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#array-reply">Array reply</span>: list of values in the hash, or an empty list when <code>key</code> does not exist.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="07ffa69c82df63b97b3a8ff6a47e36b9"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HSET myhash field1 "Hello"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HSET myhash field2 "World"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HVALS myhash</span> 
+  <pre>1) "Hello"
+2) "World"</pre>
+ </div> 
+</div>

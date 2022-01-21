@@ -1,0 +1,27 @@
+<h1 class="command"> <span class="name">GETBIT</span> <span class="arg">key</span> <span class="arg">offset</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 2.2.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p>Returns the bit value at <em>offset</em> in the string value stored at <em>key</em>.</p> 
+ <p>When <em>offset</em> is beyond the string length, the string is assumed to be a contiguous space with 0 bits. When <em>key</em> does not exist it is assumed to be an empty string, so <em>offset</em> is always out of range and the value is also assumed to be a contiguous space with 0 bits.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#integer-reply">Integer reply</span>: the bit value stored at <em>offset</em>.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="64e100b5902605c3d7f281326ff278d8"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SETBIT mykey 7 1</span> 
+  <pre>(integer) 0</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GETBIT mykey 0</span> 
+  <pre>(integer) 0</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GETBIT mykey 7</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GETBIT mykey 100</span> 
+  <pre>(integer) 0</pre>
+ </div> 
+</div>

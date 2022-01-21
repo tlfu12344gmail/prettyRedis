@@ -1,0 +1,12 @@
+<h1 class="command"> <span class="name">SCRIPT EXISTS</span> <span class="arg">sha1 [sha1 ...]</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 2.6.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(N) with N being the number of scripts to check (so checking a single script is an O(1) operation).</p> 
+ </div> 
+ <p>Returns information about the existence of the scripts in the script cache.</p> 
+ <p>This command accepts one or more SHA1 digests and returns a list of ones or zeros to signal if the scripts are already defined or not inside the script cache. This can be useful before a pipelining operation to ensure that scripts are loaded (and if not, to load them using <span href="/commands/script-load">SCRIPT LOAD</span>) so that the pipelining operation can be performed solely using <span href="/commands/evalsha">EVALSHA</span> instead of <span href="/commands/eval">EVAL</span> to save bandwidth.</p> 
+ <p>Please refer to the <span href="/commands/eval">EVAL</span> documentation for detailed information about Redis Lua scripting.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#array-reply">Array reply</span> The command returns an array of integers that correspond to the specified SHA1 digest arguments. For every corresponding SHA1 digest of a script that actually exists in the script cache, an 1 is returned, otherwise 0 is returned.</p> 
+</div>

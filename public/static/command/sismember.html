@@ -1,0 +1,27 @@
+<h1 class="command"> <span class="name">SISMEMBER</span> <span class="arg">key</span> <span class="arg">member</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p>Returns if <code>member</code> is a member of the set stored at <code>key</code>.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#integer-reply">Integer reply</span>, specifically:</p> 
+ <ul> 
+  <li><code>1</code> if the element is a member of the set.</li> 
+  <li><code>0</code> if the element is not a member of the set, or if <code>key</code> does not exist.</li> 
+ </ul> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="77642269085aa68b23bb087582b1fdea"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SADD myset "one"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SISMEMBER myset "one"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SISMEMBER myset "two"</span> 
+  <pre>(integer) 0</pre>
+ </div> 
+</div>

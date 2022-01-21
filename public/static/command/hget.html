@@ -1,0 +1,23 @@
+<h1 class="command"> <span class="name">HGET</span> <span class="arg">key</span> <span class="arg">field</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 2.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p>Returns the value associated with <code>field</code> in the hash stored at <code>key</code>.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#bulk-string-reply">Bulk string reply</span>: the value associated with <code>field</code>, or <code>nil</code> when <code>field</code> is not present in the hash or <code>key</code> does not exist.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="8b8797a853d846bb6fad360206e7d0c8"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HSET myhash field1 "foo"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HGET myhash field1</span> 
+  <pre>"foo"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HGET myhash field2</span> 
+  <pre>(nil)</pre>
+ </div> 
+</div>

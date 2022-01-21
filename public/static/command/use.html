@@ -1,0 +1,20 @@
+<h1 class="command"> <span class="name">use</span> <span class="arg">connection</span> </h1><div class="article-main">
+ <div class="metadata">
+  <p><strong>custom command</strong></p>
+ </div>
+ <p>Use the value of <code>connection</code>. If the connection does not exist the special value <code>error message</code> is returned. </p>
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2>
+ <p>Displays a list of existing connections</p>
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2>
+ <div class="example" data-session="7a6d6d4683f3c5519c0581621cef6d2c">
+  <span class="monospace prompt">redis&gt;&nbsp;</span>
+  <span class="monospace command">use dev</span>
+  <pre>dev:0 connect successfully!</pre>
+  <span class="monospace prompt">redis&gt;&nbsp;</span>
+  <span class="monospace prompt">redis&gt;&nbsp;</span>
+  <span class="monospace command">use dev-2</span>
+  <pre>not exist connection:dev-2</pre>
+ </div>
+</div>

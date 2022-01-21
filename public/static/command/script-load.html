@@ -1,0 +1,13 @@
+<h1 class="command"> <span class="name">SCRIPT LOAD</span> <span class="arg">script</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 2.6.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(N) with N being the length in bytes of the script body.</p> 
+ </div> 
+ <p>Load a script into the scripts cache, without executing it. After the specified command is loaded into the script cache it will be callable using <span href="/commands/evalsha">EVALSHA</span> with the correct SHA1 digest of the script, exactly like after the first successful invocation of <span href="/commands/eval">EVAL</span>.</p> 
+ <p>The script is guaranteed to stay in the script cache forever (unless <code>SCRIPT FLUSH</code> is called).</p> 
+ <p>The command works in the same way even if the script was already present in the script cache.</p> 
+ <p>Please refer to the <span href="/commands/eval">EVAL</span> documentation for detailed information about Redis Lua scripting.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#bulk-string-reply">Bulk string reply</span> This command returns the SHA1 digest of the script added into the script cache.</p> 
+</div>

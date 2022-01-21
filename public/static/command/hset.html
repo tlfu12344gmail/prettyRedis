@@ -1,0 +1,21 @@
+<h1 class="command"> <span class="name">HSET</span> <span class="arg">key</span> <span class="arg">field value [field value ...]</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 2.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1) for each field/value pair added, so O(N) to add N field/value pairs when the command is called with multiple field/value pairs.</p> 
+ </div> 
+ <p>Sets <code>field</code> in the hash stored at <code>key</code> to <code>value</code>. If <code>key</code> does not exist, a new key holding a hash is created. If <code>field</code> already exists in the hash, it is overwritten.</p> 
+ <p>As of Redis 4.0.0, HSET is variadic and allows for multiple <code>field</code>/<code>value</code> pairs.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#integer-reply">Integer reply</span>: The number of fields that were added.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="1c72dfb9f00e30b6ed0bb707cc244420"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HSET myhash field1 "Hello"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HGET myhash field1</span> 
+  <pre>"Hello"</pre>
+ </div> 
+</div>

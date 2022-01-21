@@ -1,0 +1,23 @@
+<h1 class="command"> <span class="name">STRLEN</span> <span class="arg">key</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 2.2.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p>Returns the length of the string value stored at <code>key</code>. An error is returned when <code>key</code> holds a non-string value.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#integer-reply">Integer reply</span>: the length of the string at <code>key</code>, or <code>0</code> when <code>key</code> does not exist.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="fa8d50718bbbe34fd57e813281da3921"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SET mykey "Hello world"</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">STRLEN mykey</span> 
+  <pre>(integer) 11</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">STRLEN nonexisting</span> 
+  <pre>(integer) 0</pre>
+ </div> 
+</div>

@@ -1,0 +1,35 @@
+<h1 class="command"> <span class="name">LSET</span> <span class="arg">key</span> <span class="arg">index</span> <span class="arg">element</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(N) where N is the length of the list. Setting either the first or the last element of the list is O(1).</p> 
+ </div> 
+ <p>Sets the list element at <code>index</code> to <code>element</code>. For more information on the <code>index</code> argument, see <span href="/commands/lindex">LINDEX</span>.</p> 
+ <p>An error is returned for out of range indexes.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#simple-string-reply">Simple string reply</span></p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="1424d1509e759693955c969574858395"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">RPUSH mylist "one"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">RPUSH mylist "two"</span> 
+  <pre>(integer) 2</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">RPUSH mylist "three"</span> 
+  <pre>(integer) 3</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LSET mylist 0 "four"</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LSET mylist -2 "five"</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LRANGE mylist 0 -1</span> 
+  <pre>1) "four"
+2) "five"
+3) "three"</pre>
+ </div> 
+</div>

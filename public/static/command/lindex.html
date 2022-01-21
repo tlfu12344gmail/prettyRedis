@@ -1,0 +1,30 @@
+<h1 class="command"> <span class="name">LINDEX</span> <span class="arg">key</span> <span class="arg">index</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(N) where N is the number of elements to traverse to get to the element at index. This makes asking for the first or the last element of the list O(1).</p> 
+ </div> 
+ <p>Returns the element at index <code>index</code> in the list stored at <code>key</code>. The index is zero-based, so <code>0</code> means the first element, <code>1</code> the second element and so on. Negative indices can be used to designate elements starting at the tail of the list. Here, <code>-1</code> means the last element, <code>-2</code> means the penultimate and so forth.</p> 
+ <p>When the value at <code>key</code> is not a list, an error is returned.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#bulk-string-reply">Bulk string reply</span>: the requested element, or <code>nil</code> when <code>index</code> is out of range.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="1e279b2a1f120e6330cbcb3f76823c76"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LPUSH mylist "World"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LPUSH mylist "Hello"</span> 
+  <pre>(integer) 2</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LINDEX mylist 0</span> 
+  <pre>"Hello"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LINDEX mylist -1</span> 
+  <pre>"World"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LINDEX mylist 3</span> 
+  <pre>(nil)</pre>
+ </div> 
+</div>

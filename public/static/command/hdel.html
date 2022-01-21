@@ -1,0 +1,28 @@
+<h1 class="command"> <span class="name">HDEL</span> <span class="arg">key</span> <span class="arg">field [field ...]</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 2.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(N) where N is the number of fields to be removed.</p> 
+ </div> 
+ <p>Removes the specified fields from the hash stored at <code>key</code>. Specified fields that do not exist within this hash are ignored. If <code>key</code> does not exist, it is treated as an empty hash and this command returns <code>0</code>.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#integer-reply">Integer reply</span>: the number of fields that were removed from the hash, not including specified but non existing fields.</p> 
+ <span id="history" class="anchor"></span>
+ <h2><span href="#history" class="anchor-link"></span>History</h2> 
+ <ul> 
+  <li><p><code>&gt;= 2.4</code>: Accepts multiple <code>field</code> arguments. Redis versions older than 2.4 can only remove a field per call.</p> <p>To remove multiple fields from a hash in an atomic fashion in earlier versions, use a <span href="/commands/multi">MULTI</span> / <span href="/commands/exec">EXEC</span> block.</p></li> 
+ </ul> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="6b4dde01d385a773a33a9bddf94271bb"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HSET myhash field1 "foo"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HDEL myhash field1</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">HDEL myhash field2</span> 
+  <pre>(integer) 0</pre>
+ </div> 
+</div>

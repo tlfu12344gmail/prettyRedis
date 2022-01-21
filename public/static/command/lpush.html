@@ -1,0 +1,30 @@
+<h1 class="command"> <span class="name">LPUSH</span> <span class="arg">key</span> <span class="arg">element [element ...]</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1) for each element added, so O(N) to add N elements when the command is called with multiple arguments.</p> 
+ </div> 
+ <p>Insert all the specified values at the head of the list stored at <code>key</code>. If <code>key</code> does not exist, it is created as empty list before performing the push operations. When <code>key</code> holds a value that is not a list, an error is returned.</p> 
+ <p>It is possible to push multiple elements using a single command call just specifying multiple arguments at the end of the command. Elements are inserted one after the other to the head of the list, from the leftmost element to the rightmost element. So for instance the command <code>LPUSH mylist a b c</code> will result into a list containing <code>c</code> as first element, <code>b</code> as second element and <code>a</code> as third element.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#integer-reply">Integer reply</span>: the length of the list after the push operations.</p> 
+ <span id="history" class="anchor"></span>
+ <h2><span href="#history" class="anchor-link"></span>History</h2> 
+ <ul> 
+  <li><code>&gt;= 2.4</code>: Accepts multiple <code>element</code> arguments. In Redis versions older than 2.4 it was possible to push a single value per command.</li> 
+ </ul> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="d624e3b75131b9f01b990b3867a1f9eb"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LPUSH mylist "world"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LPUSH mylist "hello"</span> 
+  <pre>(integer) 2</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">LRANGE mylist 0 -1</span> 
+  <pre>1) "hello"
+2) "world"</pre>
+ </div> 
+</div>

@@ -1,0 +1,25 @@
+<h1 class="command"> <span class="name">SMEMBERS</span> <span class="arg">key</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(N) where N is the set cardinality.</p> 
+ </div> 
+ <p>Returns all the members of the set value stored at <code>key</code>.</p> 
+ <p>This has the same effect as running <span href="/commands/sinter">SINTER</span> with one argument <code>key</code>.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#array-reply">Array reply</span>: all elements of the set.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="565fa1ee69bba6b527a4ae4c72e2468a"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SADD myset "Hello"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SADD myset "World"</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SMEMBERS myset</span> 
+  <pre>1) "Hello"
+2) "World"</pre>
+ </div> 
+</div>

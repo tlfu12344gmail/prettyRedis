@@ -1,0 +1,36 @@
+<h1 class="command"> <span class="name">RENAMENX</span> <span class="arg">key</span> <span class="arg">newkey</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 1.0.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(1)</p> 
+ </div> 
+ <p>Renames <code>key</code> to <code>newkey</code> if <code>newkey</code> does not yet exist. It returns an error when <code>key</code> does not exist.</p> 
+ <p>In Cluster mode, both <code>key</code> and <code>newkey</code> must be in the same <strong>hash slot</strong>, meaning that in practice only keys that have the same hash tag can be reliably renamed in cluster.</p> 
+ <span id="history" class="anchor"></span>
+ <h2><span href="#history" class="anchor-link"></span>History</h2> 
+ <ul> 
+  <li><code>&lt;= 3.2.0</code>: Before Redis 3.2.0, an error is returned if source and destination names are the same.</li> 
+ </ul> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#integer-reply">Integer reply</span>, specifically:</p> 
+ <ul> 
+  <li><code>1</code> if <code>key</code> was renamed to <code>newkey</code>.</li> 
+  <li><code>0</code> if <code>newkey</code> already exists.</li> 
+ </ul> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="56e753c8b012c11ee7cfee74cca9a491"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SET mykey "Hello"</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">SET myotherkey "World"</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">RENAMENX mykey myotherkey</span> 
+  <pre>(integer) 0</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GET myotherkey</span> 
+  <pre>"World"</pre>
+ </div> 
+</div>

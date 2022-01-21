@@ -1,0 +1,31 @@
+<h1 class="command"> <span class="name">GEOHASH</span> <span class="arg">key</span> <span class="arg">member [member ...]</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 3.2.0.</strong></p> 
+  <p><strong>Time complexity:</strong> O(log(N)) for each member requested, where N is the number of elements in the sorted set.</p> 
+ </div> 
+ <p>Return valid <span href="https://en.wikipedia.org/wiki/Geohash">Geohash</span> strings representing the position of one or more elements in a sorted set value representing a geospatial index (where elements were added using <span href="/commands/geoadd">GEOADD</span>).</p> 
+ <p>Normally Redis represents positions of elements using a variation of the Geohash technique where positions are encoded using 52 bit integers. The encoding is also different compared to the standard because the initial min and max coordinates used during the encoding and decoding process are different. This command however <strong>returns a standard Geohash</strong> in the form of a string as described in the <span href="https://en.wikipedia.org/wiki/Geohash">Wikipedia article</span> and compatible with the <span href="http://geohash.org">geohash.org</span> web site.</p> 
+ <span id="geohash-string-properties" class="anchor"></span>
+ <h2><span href="#geohash-string-properties" class="anchor-link"></span>Geohash string properties</h2> 
+ <p>The command returns 11 characters Geohash strings, so no precision is loss compared to the Redis internal 52 bit representation. The returned Geohashes have the following properties:</p> 
+ <ol> 
+  <li>They can be shortened removing characters from the right. It will lose precision but will still point to the same area.</li> 
+  <li>It is possible to use them in <code>geohash.org</code> URLs such as <code>http://geohash.org/&lt;geohash-string&gt;</code>. This is an <span href="http://geohash.org/sqdtr74hyu0">example of such URL</span>.</li> 
+  <li>Strings with a similar prefix are nearby, but the contrary is not true, it is possible that strings with different prefixes are nearby too.</li> 
+ </ol> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#array-reply">Array reply</span>, specifically:</p> 
+ <p>The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="fec57de113b5277d97ea85a846e712f6"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"</span> 
+  <pre>(integer) 2</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">GEOHASH Sicily Palermo Catania</span> 
+  <pre>1) "sqc8b49rny0"
+2) "sqdtr74hyu0"</pre>
+ </div> 
+</div>

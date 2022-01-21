@@ -1,0 +1,28 @@
+<h1 class="command"> <span class="name">PFMERGE</span> <span class="arg">destkey</span> <span class="arg">sourcekey [sourcekey ...]</span> </h1><div class="article-main"> 
+ <div class="metadata"> 
+  <p><strong>Available since 2.8.9.</strong></p> 
+  <p><strong>Time complexity:</strong> O(N) to merge N HyperLogLogs, but with high constant times.</p> 
+ </div> 
+ <p>Merge multiple HyperLogLog values into an unique value that will approximate the cardinality of the union of the observed Sets of the source HyperLogLog structures.</p> 
+ <p>The computed merged HyperLogLog is set to the destination variable, which is created if does not exist (defaulting to an empty HyperLogLog).</p> 
+ <p>If the destination variable exists, it is treated as one of the source sets and its cardinality will be included in the cardinality of the computed HyperLogLog.</p> 
+ <span id="return-value" class="anchor"></span>
+ <h2><span href="#return-value" class="anchor-link"></span>Return value</h2> 
+ <p><span href="/topics/protocol#simple-string-reply">Simple string reply</span>: The command just returns <code>OK</code>.</p> 
+ <span id="examples" class="anchor"></span>
+ <h2><span href="#examples" class="anchor-link"></span>Examples</h2> 
+ <div class="example" data-session="2a99bb5e2fe4f620f948c1b0c5b03aee"> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">PFADD hll1 foo bar zap a</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">PFADD hll2 a b c foo</span> 
+  <pre>(integer) 1</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">PFMERGE hll3 hll1 hll2</span> 
+  <pre>"OK"</pre> 
+  <span class="monospace prompt">redis&gt;&nbsp;</span> 
+  <span class="monospace command">PFCOUNT hll3</span> 
+  <pre>(integer) 6</pre>
+ </div> 
+</div>
