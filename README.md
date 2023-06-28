@@ -33,6 +33,7 @@
 ![avatar](./img/22.png)
 5. 可配置项目
 ![avatar](./img/34.png)
-
+6. 联系方式(公众号)
+![qrcode.jpg](qrcode.jpg)
 ## license 
   MIT
